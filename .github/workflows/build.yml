@@ -7,7 +7,7 @@ jobs:
   build-linux32:
     runs-on: ubuntu-20.04
     container:
-      image: ubuntu:20.04
+      image: ubuntu:18.04
       env:
         DEBIAN_FRONTEND: noninteractive
         DEBCONF_NONINTERACTIVE_SEEN: true
@@ -18,7 +18,7 @@ jobs:
           apt install -y git
 
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Add safe directory - https://github.com/actions/checkout/issues/1169
         run: git config --system --add safe.directory /__w/warfork-qfusion/warfork-qfusion
@@ -35,7 +35,7 @@ jobs:
       - name: Install build dependencies
         run: |
           apt update
-          apt install -y curl clang cmake build-essential libsdl2-dev libopenal-dev libvorbis-dev libtheora-dev libfreetype6-dev libcurl4-gnutls-dev git zip unzip g++-4.9 g++-4.9-multilib g++-multilib gcc-4.9 gcc-4.9-multilib gcc-multilib libcurl4-gnutls-dev:i386 libfreetype6-dev:i386 libgl1-mesa-dev:i386 libglib2.0-dev:i386 libglu1-mesa-dev:i386 libopenal-dev:i386 libpng-dev:i386 libpulse-dev:i386 libsdl2-dev:i386 libstdc++6-i386-cross libtheora-dev:i386 libvorbis-dev:i386
+          apt install -y curl clang cmake build-essential libopenal-dev libvorbis-dev libtheora-dev libfreetype6-dev libcurl4-gnutls-dev git zip unzip g++-4.9 g++-4.9-multilib g++-multilib gcc-4.9 gcc-4.9-multilib gcc-multilib libcurl4-gnutls-dev:i386 libfreetype6-dev:i386 libgl1-mesa-dev:i386 libglib2.0-dev:i386 libglu1-mesa-dev:i386 libopenal-dev:i386 libpng-dev:i386 libpulse-dev:i386 libsdl2-dev:i386 libstdc++6-i386-cross libtheora-dev:i386 libvorbis-dev:i386
 
       - name: Download steamworks sdk
         run: |
@@ -65,7 +65,7 @@ jobs:
   build-linux32-debug:
     runs-on: ubuntu-20.04
     container:
-      image: ubuntu:20.04
+      image: ubuntu:18.04
       env:
         DEBIAN_FRONTEND: noninteractive
         DEBCONF_NONINTERACTIVE_SEEN: true
@@ -76,7 +76,7 @@ jobs:
           apt install -y git
 
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Add safe directory - https://github.com/actions/checkout/issues/1169
         run: git config --system --add safe.directory /__w/warfork-qfusion/warfork-qfusion
@@ -93,7 +93,7 @@ jobs:
       - name: Install build dependencies
         run: |
           apt update
-          apt install -y curl clang cmake build-essential libsdl2-dev libopenal-dev libvorbis-dev libtheora-dev libfreetype6-dev libcurl4-gnutls-dev git zip unzip g++-4.9 g++-4.9-multilib g++-multilib gcc-4.9 gcc-4.9-multilib gcc-multilib libcurl4-gnutls-dev:i386 libfreetype6-dev:i386 libgl1-mesa-dev:i386 libglib2.0-dev:i386 libglu1-mesa-dev:i386 libopenal-dev:i386 libpng-dev:i386 libpulse-dev:i386 libsdl2-dev:i386 libstdc++6-i386-cross libtheora-dev:i386 libvorbis-dev:i386
+          apt install -y curl clang cmake build-essential libopenal-dev libvorbis-dev libtheora-dev libfreetype6-dev libcurl4-gnutls-dev git zip unzip g++-4.9 g++-4.9-multilib g++-multilib gcc-4.9 gcc-4.9-multilib gcc-multilib libcurl4-gnutls-dev:i386 libfreetype6-dev:i386 libgl1-mesa-dev:i386 libglib2.0-dev:i386 libglu1-mesa-dev:i386 libopenal-dev:i386 libpng-dev:i386 libpulse-dev:i386 libsdl2-dev:i386 libstdc++6-i386-cross libtheora-dev:i386 libvorbis-dev:i386
 
       - name: Download steamworks sdk
         run: |
@@ -123,7 +123,7 @@ jobs:
   build-linux64:
     runs-on: ubuntu-20.04
     container:
-      image: ubuntu:20.04
+      image: ubuntu:18.04
       env:
         DEBIAN_FRONTEND: noninteractive
         DEBCONF_NONINTERACTIVE_SEEN: true
@@ -134,7 +134,7 @@ jobs:
           apt install -y git
 
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Add safe directory - https://github.com/actions/checkout/issues/1169
         run: git config --system --add safe.directory /__w/warfork-qfusion/warfork-qfusion
@@ -172,7 +172,7 @@ jobs:
   build-linux64-debug:
     runs-on: ubuntu-20.04
     container:
-      image: ubuntu:20.04
+      image: ubuntu:18.04
       env:
         DEBIAN_FRONTEND: noninteractive
         DEBCONF_NONINTERACTIVE_SEEN: true
@@ -183,7 +183,7 @@ jobs:
           apt install -y git
 
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Add safe directory - https://github.com/actions/checkout/issues/1169
         run: git config --system --add safe.directory /__w/warfork-qfusion/warfork-qfusion
