@@ -1,0 +1,158 @@
+<!--
+Copyright (C) 2012 Chasseur de bots
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+-->
+
+<rml>
+<head>
+	<title>players</title>
+	<link type="text/template" href="template_ingame.rml" />
+	<link type="text/css" rel="stylesheet" href="css/players.rcss" />
+	<!-- <script src="as/players.as" /> -->
+	<script>
+		Element @playersDatagrid;
+		ElementForm @playerForm;
+		ElementFormControl @playerName;
+		ElementFormControl @playerNumArgs;
+		Element @playerOptions;
+		Element @playerText;
+		ElementFormControl @playerValue;
+		
+		void onPlayersLoad( Element @body, Event @evt )
+		{
+			onTemplateLoad( body, evt );
+			
+			@playersDatagrid = body.getElementById( 'players_datagrid' );
+			@playerForm = body.getElementById('players_form_start');
+			@playerName = body.getElementById( "player_name" );
+			@playerNumArgs = body.getElementById( "player_numargs" );
+			@playerOptions = body.getElementById( "player_options" );
+			@playerText = body.getElementById( "player_text" );
+		}
+
+		void onPlayersClick( Element @self, Event @evt )
+		{
+			window.close();
+		}
+
+		void onPlayersShow( Element @body, Event @evt )
+		{
+			animationsOnShow();
+
+			body.getElementById( 'back-btn' ).css( 'display', window.history_size()>1 ? 'block' : 'none' );
+
+			playersSetDataSources();
+		}
+		
+		void onPlayersHide( Element @body, Event @evt )
+		{
+			// force datasource update on next show event
+			playersClearDataSources();
+		}
+
+		void playersSetDataSources( void )
+		{
+			cast<ElementDataGrid>(playersDatagrid).setDataSource( 'gameajax.callvote/mute' );
+		}
+
+		void playersClearDataSources( void )
+		{		
+			cast<ElementDataGrid>(playersDatagrid).setDataSource( '' );
+			cast<ElementFormControlDataSelect>(playerOptions).setDataSource( '' );
+		}
+
+		void onPlayersRowSelect( Element @elem, Event @ev )
+		{
+			int selectedRow = ev.getParameter( 'index', -1 );			
+			if( selectedRow < 0 ) {
+				return;
+			}
+
+			DataSource @data = getDataSource( 'gameajax' );
+
+			// grab information for the picked row from the table
+			String name = data.getField( 'callvote/mute', selectedRow, 'name' );
+			int playerid = data.getField( 'callvote/mute', selectedRow, 'value' ).toInt();
+			int expected_args = data.getField( 'callvote/mute', selectedRow, 'expected_args' ).toInt();
+			String argument_type = data.getField( 'callvote/mute', selectedRow, 'argument_type' );
+
+			playerName.value = name;
+			cast<ElementFormControl>(playerNumArgs).value = String( expected_args );
+
+			@playerValue = null;
+
+			if( expected_args > 0 && argument_type == 'option' ) {
+				@playerValue = playerOptions;
+				cast<ElementFormControlDataSelect>(playerOptions).setDataSource( 'gameajax.callvote/mute' + name );
+			}
+			else {
+				playerOptions.setAttr( 'name', '' );
+				playerOptions.css( 'display', 'none' );
+			}
+
+			if( expected_args > 0 && ( argument_type == 'integer' || argument_type == 'text' ) ) {
+				@playerValue = playerText;
+				cast<ElementFormControl>(playerText).value = '';
+			}
+			else {
+				playerText.setAttr( 'name', '' );
+				playerText.css( 'display', 'none' );
+			}
+			
+			if( @playerValue != null ) {
+				cast<Element>(playerValue)
+					.setAttr( 'name', 'value' )
+					.css( 'display', 'inline-block' );
+			}
+		}
+	</script>
+</head>
+<body template="porkui_ingame" onload="$onPlayersLoad" onshow="$onPlayersShow" onhide="$onPlayersHide">
+	<div id="menu-ingame">
+		<div id="menu-header">Players</div>
+
+		<div id="menu-commands">
+			<form id="players_form_start">			
+				<div id="players-container">
+					<div id="players_left_frame">
+						<datagrid id="players_datagrid" source="" onrowselect="$onPlayersRowSelect">
+							<col fields="name" width="150dp">Name</col>
+						</datagrid>
+					</div>
+					<div id="players_spacer_frame" >&nbsp;</div>
+					<div id="players_right_frame">
+						<div id="players_options_frame">
+							<div id="player_picker_frame">
+								<input id="player_name" type="text" style="display: none;" name="name" />
+								<input id="player_numargs" type="text" style="display: none;" name="numargs" />
+								<dataselect id="player_options" fields="name" valuefield="value" formatter="colorcode" />
+								<input id="player_text" type="text" />
+							<br/>
+							</div>
+						</div>
+					</div>
+					<br/>
+				</div>			
+			</form>
+
+			<button onclick="window.history_back();" id="back-btn">Back</button>
+			<button onclick="window.close();">Return to game</button>		
+		</div>			
+	</div>
+</body>
+</rml>

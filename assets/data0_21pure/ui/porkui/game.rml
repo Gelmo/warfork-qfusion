@@ -210,6 +210,7 @@
 
 			showMenuButton( 'btn-disconnect' );
 
+			showMenuButton( 'link-players' );
 			showMenuButton( 'link-main' );			
 			showMenuButton( 'btn-return' );
 
@@ -250,6 +251,7 @@
 			<a id="link-chasecam" href="chasecam.rml" class="styled-button">Chasecam</a>
 
 			<br/>
+			<a id="link-players" href="players.rml" class="styled-button">Players</a>
 			<a id="link-main" href="index.rml" class="styled-button">Main menu</a>
 			<button id="btn-return" command="" onclick="$onCmdButtonClick">Return to game</button>
 		</div>
